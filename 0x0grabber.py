@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import httplib2, sys, os, random, string
+import time
 
 ENDLINE = '\033[0m'
 BOLD = '\033[1m'
@@ -10,19 +11,14 @@ GREEN = '\033[92m'
 RED = '\033[91m'
 GREYBACK = '\033[40m'
 
-dirname = '0x0'
+scantime = time.ctime(time.time())
+dirname = scantime
 
 pngCount = 0
 foundss = 0
 
 def generate_id(size=3):
 	return ''.join(random.choice(string.ascii_lowercase + string.ascii_uppercase) for _ in range(size))
-def generate_idd(size=2):
-	return ''.join(random.choice(string.ascii_uppercase) for _ in range(size))
-def generate_idone(size=1):
-	return ''.join(random.choice(string.ascii_lowercase) for _ in range(size))
-def generate_idtwo(size=1):
-	return ''.join(random.choice(string.ascii_uppercase) for _ in range(size))
 
 def save_pic(content, pic_id, ext):
 	f = open(dirname + '/' +str(pic_id) + ext,'wb')
@@ -33,7 +29,7 @@ def print_status(png_count, link, color):
 	print BLUE + BOLD + '[+] ' + ENDLINE + str(png_count) + ' Objects Found - ' + color + BOLD + link + ENDLINE
 
 def abort():
-	print '\n\n' + GREEN + BOLD + '[+]' + ENDLINE + ' All found Objects were saved to: ' + BOLD + os.getcwd() + '/' + dirname + ENDLINE + ' . Enjoy ;)\n'
+	print '\n\n' + GREEN + BOLD + '[+]' + ENDLINE + ' All found Objects were saved to: ' + BOLD + os.getcwd() + '/' + dirname + ENDLINE
 	sys.exit(0)
 
 print YELLOW + BOLD + '''
@@ -51,9 +47,6 @@ while 1:
 
 		status_color = RED
 		pic_id = generate_id()
-		zip_id = generate_idd()
-		one_id = generate_idone()
-		two_id = generate_idtwo()
 		link = 'http://0x0.st/' + 'z' + pic_id + '.' + Ext
 		h = httplib2.Http(timeout=100)
 		resp = h.request(link)
