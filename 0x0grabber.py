@@ -17,6 +17,10 @@ dirname = scantime
 pngCount = 0
 foundss = 0
 
+def empty_abort():
+	print '\n\n' + RED + BOLD + '[+]' + ENDLINE + ' Nothing found'
+	sys.exit()
+
 def generate_id(size=3):
 	return ''.join(random.choice(string.ascii_lowercase + string.ascii_uppercase) for _ in range(size))
 
@@ -39,7 +43,11 @@ print YELLOW + BOLD + '''
 if not os.path.exists(dirname):
     os.makedirs(dirname)
 Ext = raw_input('Enter file extension: ')
-print Ext
+if Ext.isdigit():
+	print 'Wrong extension!'
+	sys.exit()
+else:
+	print Ext
 
 while 1:
 
@@ -65,7 +73,11 @@ while 1:
 	except httplib2.RelativeURIError:
 		pass
 	except KeyboardInterrupt:
-		abort()
+		if pngCount > 0:
+			abort()
+		else:
+			os.rmdir(dirname)
+			empty_abort()
 	except Exception as e:
 		print '\n\n' + GREEN + BOLD + '[+]' + ENDLINE + ' An error occurred: ' + str(e)
 		sys.exit(1)
